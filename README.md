@@ -3,3 +3,4 @@
 
 ## About it
 *Waiting for perfection*
+*This project is currently in the early stages of development and is not yet complete*
