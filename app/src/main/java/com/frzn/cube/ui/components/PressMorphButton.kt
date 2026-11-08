@@ -13,10 +13,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -25,51 +27,33 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-/**
- * M3E 风格按压圆角变换按钮。
- *
- * 按压时圆角从 [idleCorner] 弹簧动画到 [pressedCorner]，
- * 同时 scale 缩小到 [pressScale]；释放后弹簧回弹。
- * 弹簧参数（dampingRatio=0.7, stiffness=MediumLow）对齐
- * MotionScheme.expressive() 的弹簧物理。
- */
 @Composable
 fun PressMorphButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    idleCorner: Dp = 12.dp,
-    pressedCorner: Dp = 24.dp,
-    pressScale: Float = 0.95f,
+    colors: ButtonColors = ButtonDefaults.buttonColors(),
+    idleCorner: Dp = 24.dp,
+    pressCorner: Dp = 12.dp,
     content: @Composable () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed = interactionSource.collectIsPressedAsState().value
 
-    val colors = ButtonDefaults.buttonColors()
-
     val corner = animateDpAsState(
-        targetValue = if (isPressed) pressedCorner else idleCorner,
-        animationSpec = spring(
-            dampingRatio = 0.7f,
-            stiffness = Spring.StiffnessMediumLow,
-        ),
+        targetValue = if (isPressed) pressCorner else idleCorner,
+        animationSpec = spring(dampingRatio = 0.6f, stiffness = Spring.StiffnessHigh),
     )
-
     val scale = animateFloatAsState(
-        targetValue = if (isPressed) pressScale else 1f,
-        animationSpec = spring(
-            dampingRatio = 0.7f,
-            stiffness = Spring.StiffnessMediumLow,
-        ),
+        targetValue = if (isPressed) 0.96f else 1f,
+        animationSpec = spring(dampingRatio = 0.6f, stiffness = Spring.StiffnessHigh),
     )
 
     Surface(
-        modifier = modifier
-            .graphicsLayer(
-                scaleX = scale.value,
-                scaleY = scale.value,
-            ),
+        modifier = modifier.graphicsLayer(
+            scaleX = scale.value,
+            scaleY = scale.value,
+        ),
         shape = RoundedCornerShape(corner.value),
         color = colors.containerColor,
         contentColor = colors.contentColor,
@@ -90,46 +74,33 @@ fun PressMorphButton(
     }
 }
 
-/**
- * M3E 风格 Tonal 圆角变换按钮。
- */
 @Composable
 fun PressMorphTonalButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    idleCorner: Dp = 12.dp,
-    pressedCorner: Dp = 24.dp,
-    pressScale: Float = 0.95f,
+    colors: ButtonColors = ButtonDefaults.filledTonalButtonColors(),
+    idleCorner: Dp = 24.dp,
+    pressCorner: Dp = 12.dp,
     content: @Composable () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed = interactionSource.collectIsPressedAsState().value
 
-    val colors = ButtonDefaults.filledTonalButtonColors()
-
     val corner = animateDpAsState(
-        targetValue = if (isPressed) pressedCorner else idleCorner,
-        animationSpec = spring(
-            dampingRatio = 0.7f,
-            stiffness = Spring.StiffnessMediumLow,
-        ),
+        targetValue = if (isPressed) pressCorner else idleCorner,
+        animationSpec = spring(dampingRatio = 0.6f, stiffness = Spring.StiffnessHigh),
     )
-
     val scale = animateFloatAsState(
-        targetValue = if (isPressed) pressScale else 1f,
-        animationSpec = spring(
-            dampingRatio = 0.7f,
-            stiffness = Spring.StiffnessMediumLow,
-        ),
+        targetValue = if (isPressed) 0.96f else 1f,
+        animationSpec = spring(dampingRatio = 0.6f, stiffness = Spring.StiffnessHigh),
     )
 
     Surface(
-        modifier = modifier
-            .graphicsLayer(
-                scaleX = scale.value,
-                scaleY = scale.value,
-            ),
+        modifier = modifier.graphicsLayer(
+            scaleX = scale.value,
+            scaleY = scale.value,
+        ),
         shape = RoundedCornerShape(corner.value),
         color = colors.containerColor,
         contentColor = colors.contentColor,
@@ -140,6 +111,48 @@ fun PressMorphTonalButton(
                 .clickable(
                     interactionSource = interactionSource,
                     enabled = enabled,
+                    onClick = onClick,
+                ),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            content()
+        }
+    }
+}
+
+@Composable
+fun PressMorphFab(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed = interactionSource.collectIsPressedAsState().value
+
+    val corner = animateDpAsState(
+        targetValue = if (isPressed) 4.dp else 16.dp,
+        animationSpec = spring(dampingRatio = 0.6f, stiffness = Spring.StiffnessHigh),
+    )
+    val scale = animateFloatAsState(
+        targetValue = if (isPressed) 0.92f else 1f,
+        animationSpec = spring(dampingRatio = 0.6f, stiffness = Spring.StiffnessHigh),
+    )
+
+    Surface(
+        modifier = modifier.graphicsLayer(
+            scaleX = scale.value,
+            scaleY = scale.value,
+        ),
+        shape = RoundedCornerShape(corner.value),
+        color = MaterialTheme.colorScheme.primaryContainer,
+        contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(14.dp)
+                .clickable(
+                    interactionSource = interactionSource,
                     onClick = onClick,
                 ),
             horizontalArrangement = Arrangement.Center,

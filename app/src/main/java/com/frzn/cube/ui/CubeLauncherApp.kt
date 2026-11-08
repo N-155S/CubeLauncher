@@ -4,6 +4,7 @@ package com.frzn.cube.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -16,20 +17,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.frzn.cube.ui.components.PressMorphButton
+import com.frzn.cube.ui.components.PressMorphFab
 import com.frzn.cube.ui.components.PressMorphTonalButton
 import com.frzn.cube.ui.theme.CubeLauncherTheme
 
 /**
  * CubeLauncher 根 Composable。
- *
- * M3E 组件 + 手写圆角变换按钮验证页。
+ * 所有按钮使用 PressMorph 圆角变换动画（idle 24dp → press 10dp → release 24dp）。
  */
 @Composable
 fun CubeLauncherApp() {
     CubeLauncherTheme {
         Scaffold(
             floatingActionButton = {
-                FloatingActionButton(onClick = { /* no-op */ }) {
+                PressMorphFab(onClick = { /* no-op */ }) {
                     Icon(Icons.Filled.Add, contentDescription = "Add")
                 }
             }
@@ -54,35 +55,21 @@ fun CubeLauncherApp() {
                 )
                 Spacer(Modifier.size(32.dp))
 
-                // 1. M3E 原生 Button
-                Button(onClick = { /* no-op */ }) {
-                    Text("M3E Button")
-                }
-                Spacer(Modifier.size(16.dp))
-
-                // 2. M3E 原生 Tonal 按钮
-                FilledTonalButton(onClick = { /* no-op */ }) {
-                    Text("M3E Tonal")
-                }
-                Spacer(Modifier.size(16.dp))
-
-                // 3. 手写圆角变换按钮
                 PressMorphButton(onClick = { /* no-op */ }) {
-                    Text("Morph Button")
+                    Text("Standard Button")
                 }
                 Spacer(Modifier.size(16.dp))
 
-                // 4. 手写圆角变换 Tonal 按钮
                 PressMorphTonalButton(onClick = { /* no-op */ }) {
-                    Text("Morph Tonal")
+                    Text("Tonal Button")
                 }
                 Spacer(Modifier.size(16.dp))
 
-                // 5. M3E ButtonGroup
-                ButtonGroup {
-                    Button(onClick = { /* no-op */ }) { Text("A") }
-                    Button(onClick = { /* no-op */ }) { Text("B") }
-                    Button(onClick = { /* no-op */ }) { Text("C") }
+                // 组按钮（Row 布局 + PressMorph）
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    PressMorphButton(onClick = { /* no-op */ }) { Text("A") }
+                    PressMorphButton(onClick = { /* no-op */ }) { Text("B") }
+                    PressMorphButton(onClick = { /* no-op */ }) { Text("C") }
                 }
             }
         }
