@@ -15,22 +15,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.frzn.cube.ui.components.PressMorphButton
+import com.frzn.cube.ui.components.PressMorphTonalButton
 import com.frzn.cube.ui.theme.CubeLauncherTheme
 
 /**
  * CubeLauncher 根 Composable。
  *
- * 当前阶段：M3E 组件可用性验证。
- * 所有按钮均使用 M3E 原生组件，由 MotionScheme.expressive() 驱动形变与挤压。
+ * M3E 组件 + 手写圆角变换按钮验证页。
  */
 @Composable
 fun CubeLauncherApp() {
     CubeLauncherTheme {
         Scaffold(
             floatingActionButton = {
-                FloatingActionButton(
-                    onClick = { /* no-op */ },
-                ) {
+                FloatingActionButton(onClick = { /* no-op */ }) {
                     Icon(Icons.Filled.Add, contentDescription = "Add")
                 }
             }
@@ -55,19 +54,31 @@ fun CubeLauncherApp() {
                 )
                 Spacer(Modifier.size(32.dp))
 
-                // 1. 标准按钮
+                // 1. M3E 原生 Button
                 Button(onClick = { /* no-op */ }) {
-                    Text("Standard Button")
+                    Text("M3E Button")
                 }
                 Spacer(Modifier.size(16.dp))
 
-                // 2. Tonal 按钮（M3E 组件）
+                // 2. M3E 原生 Tonal 按钮
                 FilledTonalButton(onClick = { /* no-op */ }) {
-                    Text("Filled Tonal Button")
+                    Text("M3E Tonal")
                 }
                 Spacer(Modifier.size(16.dp))
 
-                // 3. 组按钮（M3E 组件，slot 形式）
+                // 3. 手写圆角变换按钮
+                PressMorphButton(onClick = { /* no-op */ }) {
+                    Text("Morph Button")
+                }
+                Spacer(Modifier.size(16.dp))
+
+                // 4. 手写圆角变换 Tonal 按钮
+                PressMorphTonalButton(onClick = { /* no-op */ }) {
+                    Text("Morph Tonal")
+                }
+                Spacer(Modifier.size(16.dp))
+
+                // 5. M3E ButtonGroup
                 ButtonGroup {
                     Button(onClick = { /* no-op */ }) { Text("A") }
                     Button(onClick = { /* no-op */ }) { Text("B") }
