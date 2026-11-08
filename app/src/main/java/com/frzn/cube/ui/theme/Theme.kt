@@ -2,11 +2,9 @@
 
 package com.frzn.cube.ui.theme
 
-import android.content.res.Configuration
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.foundation.isSystemInDarkTheme
 
 /**
  * CubeLauncher 全局主题入口。
