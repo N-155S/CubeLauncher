@@ -26,8 +26,8 @@ import androidx.compose.ui.unit.dp
 /**
  * M3E 圆角变换按钮。
  *
- * idle 24dp → 按下极速凸到 4dp → 回弹稳定 7dp → 松开弹簧回 24dp。
- * 无 scale 下沉，ripple 在 Surface 容器上（不在文本上）。
+ * idle 24dp → 按下凸到 4dp → 回弹 7dp → 松开过冲 26dp → 恢复 24dp。
+ * 无 scale 下沉，ripple 在 Surface 容器上。
  */
 @Composable
 fun PressMorphButton(
@@ -44,10 +44,11 @@ fun PressMorphButton(
 
     val corner = animateDpAsState(
         targetValue = if (isPressed) pressCorner else idleCorner,
-        animationSpec = spring(
-            dampingRatio = 0.4f,
-            stiffness = Spring.StiffnessMedium,
-        ),
+        animationSpec = if (isPressed) {
+            spring(dampingRatio = 0.4f, stiffness = Spring.StiffnessMedium)
+        } else {
+            spring(dampingRatio = 0.5f, stiffness = Spring.StiffnessMedium)
+        },
     )
 
     Surface(
@@ -84,10 +85,11 @@ fun PressMorphTonalButton(
 
     val corner = animateDpAsState(
         targetValue = if (isPressed) pressCorner else idleCorner,
-        animationSpec = spring(
-            dampingRatio = 0.4f,
-            stiffness = Spring.StiffnessMedium,
-        ),
+        animationSpec = if (isPressed) {
+            spring(dampingRatio = 0.4f, stiffness = Spring.StiffnessMedium)
+        } else {
+            spring(dampingRatio = 0.5f, stiffness = Spring.StiffnessMedium)
+        },
     )
 
     Surface(
@@ -120,10 +122,11 @@ fun PressMorphFab(
 
     val corner = animateDpAsState(
         targetValue = if (isPressed) 4.dp else 16.dp,
-        animationSpec = spring(
-            dampingRatio = 0.4f,
-            stiffness = Spring.StiffnessMedium,
-        ),
+        animationSpec = if (isPressed) {
+            spring(dampingRatio = 0.4f, stiffness = Spring.StiffnessMedium)
+        } else {
+            spring(dampingRatio = 0.5f, stiffness = Spring.StiffnessMedium)
+        },
     )
 
     Surface(
