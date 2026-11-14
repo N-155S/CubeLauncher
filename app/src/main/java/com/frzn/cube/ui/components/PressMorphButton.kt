@@ -2,8 +2,8 @@
 
 package com.frzn.cube.ui.components
 
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -17,6 +17,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,20 +43,29 @@ fun PressMorphButton(
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed = interactionSource.collectIsPressedAsState().value
 
-    val corner = animateDpAsState(
-        targetValue = if (isPressed) pressCorner else idleCorner,
-        animationSpec = if (isPressed) {
-            spring(dampingRatio = 0.4f, stiffness = Spring.StiffnessMedium)
+    val cornerAnimatable = remember { Animatable(24f) }
+
+    LaunchedEffect(isPressed) {
+        if (isPressed) {
+            // 按下：强过冲 24dp → 4dp → 稳定 7dp
+            cornerAnimatable.animateTo(
+                targetValue = 7f,
+                animationSpec = spring(dampingRatio = 0.4f, stiffness = Spring.StiffnessMedium),
+            )
         } else {
-            spring(dampingRatio = 0.5f, stiffness = Spring.StiffnessMedium)
-        },
-    )
+            // 松开：温和过冲 7dp → 26dp → 稳定 24dp
+            cornerAnimatable.animateTo(
+                targetValue = 24f,
+                animationSpec = spring(dampingRatio = 0.42f, stiffness = Spring.StiffnessMedium),
+            )
+        }
+    }
 
     Surface(
         onClick = onClick,
         modifier = modifier,
         enabled = enabled,
-        shape = RoundedCornerShape(corner.value),
+        shape = RoundedCornerShape(cornerAnimatable.value.dp),
         color = colors.containerColor,
         contentColor = colors.contentColor,
         interactionSource = interactionSource,
@@ -83,20 +93,27 @@ fun PressMorphTonalButton(
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed = interactionSource.collectIsPressedAsState().value
 
-    val corner = animateDpAsState(
-        targetValue = if (isPressed) pressCorner else idleCorner,
-        animationSpec = if (isPressed) {
-            spring(dampingRatio = 0.4f, stiffness = Spring.StiffnessMedium)
+    val cornerAnimatable = remember { Animatable(24f) }
+
+    LaunchedEffect(isPressed) {
+        if (isPressed) {
+            cornerAnimatable.animateTo(
+                targetValue = 7f,
+                animationSpec = spring(dampingRatio = 0.4f, stiffness = Spring.StiffnessMedium),
+            )
         } else {
-            spring(dampingRatio = 0.5f, stiffness = Spring.StiffnessMedium)
-        },
-    )
+            cornerAnimatable.animateTo(
+                targetValue = 24f,
+                animationSpec = spring(dampingRatio = 0.42f, stiffness = Spring.StiffnessMedium),
+            )
+        }
+    }
 
     Surface(
         onClick = onClick,
         modifier = modifier,
         enabled = enabled,
-        shape = RoundedCornerShape(corner.value),
+        shape = RoundedCornerShape(cornerAnimatable.value.dp),
         color = colors.containerColor,
         contentColor = colors.contentColor,
         interactionSource = interactionSource,
@@ -120,19 +137,26 @@ fun PressMorphFab(
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed = interactionSource.collectIsPressedAsState().value
 
-    val corner = animateDpAsState(
-        targetValue = if (isPressed) 4.dp else 16.dp,
-        animationSpec = if (isPressed) {
-            spring(dampingRatio = 0.4f, stiffness = Spring.StiffnessMedium)
+    val cornerAnimatable = remember { Animatable(16f) }
+
+    LaunchedEffect(isPressed) {
+        if (isPressed) {
+            cornerAnimatable.animateTo(
+                targetValue = 4f,
+                animationSpec = spring(dampingRatio = 0.4f, stiffness = Spring.StiffnessMedium),
+            )
         } else {
-            spring(dampingRatio = 0.5f, stiffness = Spring.StiffnessMedium)
-        },
-    )
+            cornerAnimatable.animateTo(
+                targetValue = 16f,
+                animationSpec = spring(dampingRatio = 0.42f, stiffness = Spring.StiffnessMedium),
+            )
+        }
+    }
 
     Surface(
         onClick = onClick,
         modifier = modifier,
-        shape = RoundedCornerShape(corner.value),
+        shape = RoundedCornerShape(cornerAnimatable.value.dp),
         color = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
         interactionSource = interactionSource,
