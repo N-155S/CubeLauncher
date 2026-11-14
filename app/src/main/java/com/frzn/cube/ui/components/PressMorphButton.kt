@@ -47,16 +47,16 @@ fun PressMorphButton(
 
     LaunchedEffect(isPressed) {
         if (isPressed) {
-            // 按下：强过冲 24dp → 4dp → 稳定 7dp
+            // 按下：快！24dp → 4dp → 7dp
             cornerAnimatable.animateTo(
                 targetValue = 7f,
                 animationSpec = spring(dampingRatio = 0.4f, stiffness = Spring.StiffnessMedium),
             )
         } else {
-            // 松开：温和过冲 7dp → 26dp → 稳定 24dp
+            // 松开：慢一点，过冲到 26dp 再回 24dp，让过冲可见
             cornerAnimatable.animateTo(
                 targetValue = 24f,
-                animationSpec = spring(dampingRatio = 0.42f, stiffness = Spring.StiffnessMedium),
+                animationSpec = spring(dampingRatio = 0.35f, stiffness = Spring.StiffnessMediumLow),
             )
         }
     }
@@ -71,7 +71,7 @@ fun PressMorphButton(
         interactionSource = interactionSource,
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
+            modifier = Modifier.padding(horizontal = 20.dp, vertical = 20.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -104,7 +104,7 @@ fun PressMorphTonalButton(
         } else {
             cornerAnimatable.animateTo(
                 targetValue = 24f,
-                animationSpec = spring(dampingRatio = 0.42f, stiffness = Spring.StiffnessMedium),
+                animationSpec = spring(dampingRatio = 0.35f, stiffness = Spring.StiffnessMediumLow),
             )
         }
     }
@@ -119,7 +119,7 @@ fun PressMorphTonalButton(
         interactionSource = interactionSource,
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
+            modifier = Modifier.padding(horizontal = 20.dp, vertical = 20.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -148,7 +148,7 @@ fun PressMorphFab(
         } else {
             cornerAnimatable.animateTo(
                 targetValue = 16f,
-                animationSpec = spring(dampingRatio = 0.42f, stiffness = Spring.StiffnessMedium),
+                animationSpec = spring(dampingRatio = 0.35f, stiffness = Spring.StiffnessMediumLow),
             )
         }
     }
