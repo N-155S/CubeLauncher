@@ -57,9 +57,13 @@ dependencies {
     // M3E —— 显式覆盖 BOM 默认的 material3 版本
     implementation("androidx.compose.material3:material3:1.5.0-alpha15")
     implementation("androidx.compose.material:material-icons-core:1.7.8")
+    implementation("androidx.compose.material:material-icons-extended:1.7.2")
 
     // Lifecycle
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.0")
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
 
     // SplashScreen（遮罩动画）
     implementation("androidx.core:core-splashscreen:1.0.1")

@@ -11,12 +11,9 @@ import androidx.compose.ui.platform.LocalContext
 /**
  * CubeLauncher 全局主题入口。
  *
- * 所有 Composable 内容必须包在 [CubeLauncherTheme] 里，
- * 形变 / 挤压 / 弹簧动画由 [MaterialExpressiveTheme] + [expressiveMotion] 统一驱动。
- *
  * 颜色优先级：
  * 1. Android 12+ 且 [dynamicColor] 为 true → 系统动态取色（壁纸）
- * 2. 否则 → 自定义明暗色板（[Color.kt](Color.kt)）
+ * 2. 否则 → Blue 备用色板（[Color.kt](Color.kt)）
  */
 @Composable
 fun CubeLauncherTheme(
@@ -33,42 +30,56 @@ fun CubeLauncherTheme(
         }
         darkTheme -> {
             darkColorScheme(
-                primary = PrimaryDark,
-                onPrimary = OnPrimaryDark,
-                primaryContainer = PrimaryContainerDark,
-                onPrimaryContainer = OnPrimaryContainerDark,
-                secondary = SecondaryDark,
-                onSecondary = OnSecondaryDark,
-                secondaryContainer = SecondaryContainerDark,
-                onSecondaryContainer = OnSecondaryContainerDark,
-                tertiary = TertiaryDark,
-                onTertiary = OnTertiaryDark,
-                tertiaryContainer = TertiaryContainerDark,
-                onTertiaryContainer = OnTertiaryContainerDark,
-                error = ErrorDark,
-                onError = OnErrorDark,
-                errorContainer = ErrorContainerDark,
-                onErrorContainer = OnErrorContainerDark,
+                primary = BluePrimaryDark,
+                onPrimary = BlueOnPrimaryDark,
+                primaryContainer = BluePrimaryContainerDark,
+                onPrimaryContainer = BlueOnPrimaryContainerDark,
+                secondary = BlueSecondaryDark,
+                onSecondary = BlueOnSecondaryDark,
+                secondaryContainer = BlueSecondaryContainerDark,
+                onSecondaryContainer = BlueOnSecondaryContainerDark,
+                tertiaryContainer = BlueTertiaryContainerDark,
+                onTertiaryContainer = BlueOnTertiaryContainerDark,
+                surface = BlueSurfaceDark,
+                onSurface = BlueOnSurfaceDark,
+                surfaceVariant = BlueSurfaceVariantDark,
+                onSurfaceVariant = BlueOnSurfaceVariantDark,
+                outline = BlueOutlineDark,
+                outlineVariant = BlueOutlineVariantDark,
+                inverseSurface = BlueInverseSurfaceDark,
+                inverseOnSurface = BlueInverseOnSurfaceDark,
+                inversePrimary = BlueInversePrimaryDark,
+                error = BlueErrorDark,
+                onError = BlueOnErrorDark,
+                errorContainer = BlueErrorContainerDark,
+                onErrorContainer = BlueOnErrorContainerDark,
             )
         }
         else -> {
             lightColorScheme(
-                primary = Primary,
-                onPrimary = OnPrimary,
-                primaryContainer = PrimaryContainer,
-                onPrimaryContainer = OnPrimaryContainer,
-                secondary = Secondary,
-                onSecondary = OnSecondary,
-                secondaryContainer = SecondaryContainer,
-                onSecondaryContainer = OnSecondaryContainer,
-                tertiary = Tertiary,
-                onTertiary = OnTertiary,
-                tertiaryContainer = TertiaryContainer,
-                onTertiaryContainer = OnTertiaryContainer,
-                error = Error,
-                onError = OnError,
-                errorContainer = ErrorContainer,
-                onErrorContainer = OnErrorContainer,
+                primary = BluePrimary,
+                onPrimary = BlueOnPrimary,
+                primaryContainer = BluePrimaryContainer,
+                onPrimaryContainer = BlueOnPrimaryContainer,
+                secondary = BlueSecondary,
+                onSecondary = BlueOnSecondary,
+                secondaryContainer = BlueSecondaryContainer,
+                onSecondaryContainer = BlueOnSecondaryContainer,
+                tertiaryContainer = BlueTertiaryContainer,
+                onTertiaryContainer = BlueOnTertiaryContainer,
+                surface = BlueSurface,
+                onSurface = BlueOnSurface,
+                surfaceVariant = BlueSurfaceVariant,
+                onSurfaceVariant = BlueOnSurfaceVariant,
+                outline = BlueOutline,
+                outlineVariant = BlueOutlineVariant,
+                inverseSurface = BlueInverseSurface,
+                inverseOnSurface = BlueInverseOnSurface,
+                inversePrimary = BlueInversePrimary,
+                error = BlueError,
+                onError = BlueOnError,
+                errorContainer = BlueErrorContainer,
+                onErrorContainer = BlueOnErrorContainer,
             )
         }
     }

@@ -10,17 +10,18 @@ import com.frzn.cube.ui.CubeLauncherApp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        // SplashScreen 必须在 super.onCreate() 之前调用
         val splash = installSplashScreen()
         super.onCreate(savedInstanceState)
-        // 状态栏 + 导航栏沉浸式
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        @Suppress("DEPRECATION")
         window.statusBarColor = Color.TRANSPARENT
+        @Suppress("DEPRECATION")
         window.navigationBarColor = Color.TRANSPARENT
+
         setContent {
             CubeLauncherApp()
         }
-        // 内容就绪后移除 splash
+
         splash.setKeepOnScreenCondition { false }
     }
 }
