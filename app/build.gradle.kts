@@ -61,6 +61,9 @@ dependencies {
     // Lifecycle
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.0")
 
+    // SplashScreen（遮罩动画）
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
     // Debug 工具
     debugImplementation("androidx.compose.ui:ui-tooling")
 
