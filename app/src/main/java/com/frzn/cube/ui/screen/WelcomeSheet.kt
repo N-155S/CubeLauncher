@@ -15,10 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.frzn.cube.ui.components.PressMorphButton
 
-/**
- * 首次进入应用的底部面板内容。
- * 616×524dp，背景 surfaceContainerHighest，上方圆角 28dp，下方直角。
- */
 @Composable
 fun WelcomeSheetContent(
     onGithubClick: () -> Unit,
@@ -26,21 +22,21 @@ fun WelcomeSheetContent(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp, vertical = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp, vertical = 20.dp),
     ) {
-        // ── 上部靠左：粗体 "CubeLauncher"（45sp）──
+        // 拖动条（ModalBottomSheet 自带，不需要额外画）
+
+        // 上部靠左：粗体 "CubeLauncher"（45sp）
         Text(
             text = "CubeLauncher",
             fontSize = 45.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.align(Alignment.Start),
         )
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(8.dp))
 
-        // ── 上部：中文描述（28sp）──
+        // 上部：中文描述（28sp，居中）
         Text(
             text = "这是一个专为Android™平台而生的《Minecraft Java Edition》启动器，希望您能喜欢！",
             fontSize = 28.sp,
@@ -50,7 +46,7 @@ fun WelcomeSheetContent(
         )
         Spacer(Modifier.height(8.dp))
 
-        // ── 中部：英文描述（28sp）──
+        // 中部：英文描述（28sp，居中）
         Text(
             text = "This is a Minecraft Java Edition launcher for the Android™ platform. Hope you like it!",
             fontSize = 28.sp,
@@ -58,92 +54,92 @@ fun WelcomeSheetContent(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
         )
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(16.dp))
 
-        // ── 分割线（1dp outlineVariant，左右 16dp）──
+        // 分割线（1dp outlineVariant）
         HorizontalDivider(
             color = MaterialTheme.colorScheme.outlineVariant,
             thickness = 1.dp,
-            modifier = Modifier.fillMaxWidth(),
         )
         Spacer(Modifier.height(16.dp))
 
-        // ── 中部横向一行：浮起卡片（高 112dp，圆角 14dp）──
-        ElevatedCard(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(112.dp),
+        // 中部横向一行：浮起卡片 + GitHub 文本 + 小按钮
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Row(
+            // 浮起卡片（高 112dp，圆角 14dp，surfaceContainerLow + Level 1 阴影）
+            ElevatedCard(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 20.dp, vertical = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
+                    .height(112.dp)
+                    .weight(1f),
             ) {
-                // 左侧：标题 + 正文
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = "作者 Author  N-155 Studio",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onSurface,
-                    )
-                    Spacer(Modifier.height(4.dp))
-                    Text(
-                        text = "bilibili:@Freeazen155",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-                Spacer(Modifier.width(16.dp))
-
-                // 中间：GitHub 文本（45sp）
-                Text(
-                    text = "GitHub",
-                    fontSize = 45.sp,
-                    color = MaterialTheme.colorScheme.primary,
-                )
-                Spacer(Modifier.width(12.dp))
-
-                // 右侧：无标签填充按钮（arrow_forward，宽 108dp）
-                PressMorphButton(
-                    onClick = onGithubClick,
-                    modifier = Modifier.width(108.dp),
-                    idleCorner = 28.dp,
-                    pressCorner = 10.dp,
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(20.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                        contentDescription = "GitHub",
-                    )
+                    Column {
+                        Text(
+                            text = "作者 Author  N-155 Studio",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onSurface,
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        Text(
+                            text = "bilibili:@Freeazen155",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
                 }
             }
+
+            Spacer(Modifier.width(12.dp))
+
+            // "GitHub" 文本（45sp）
+            Text(
+                text = "GitHub",
+                fontSize = 45.sp,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+
+            Spacer(Modifier.width(12.dp))
+
+            // 无标签填充按钮（arrow_forward，宽 108dp，高 56dp，胶囊形）
+            PressMorphButton(
+                onClick = onGithubClick,
+                modifier = Modifier
+                    .width(108.dp)
+                    .height(56.dp),
+                idleCorner = 28.dp,
+                pressCorner = 10.dp,
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                    contentDescription = "GitHub",
+                    modifier = Modifier.size(24.dp),
+                )
+            }
         }
+
         Spacer(Modifier.height(16.dp))
 
-        // ── 下部：无标签填充按钮（arrow_forward，宽 592dp，高 100dp）──
+        // 下部：无标签填充大按钮（arrow_forward，宽 592dp，高 100dp，胶囊形）
         PressMorphButton(
             onClick = onDismiss,
             modifier = Modifier
-                .width(592.dp)
+                .fillMaxWidth()
                 .height(100.dp),
             idleCorner = 50.dp,
             pressCorner = 20.dp,
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                    contentDescription = null,
-                    modifier = Modifier.size(32.dp),
-                )
-                Spacer(Modifier.width(8.dp))
-                Text(
-                    text = "开始",
-                    style = MaterialTheme.typography.headlineSmall,
-                )
-            }
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                contentDescription = null,
+                modifier = Modifier.size(32.dp),
+            )
         }
     }
 }

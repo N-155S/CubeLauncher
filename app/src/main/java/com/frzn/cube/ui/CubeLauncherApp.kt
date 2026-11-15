@@ -24,46 +24,37 @@ import com.frzn.cube.ui.screen.WelcomeSheetContent
 import com.frzn.cube.ui.theme.CubeLauncherTheme
 import kotlinx.coroutines.launch
 
-/**
- * CubeLauncher 根 Composable。
- * 横屏 1280×800dp 基准。
- */
 @Composable
 fun CubeLauncherApp() {
     CubeLauncherTheme {
         val context = LocalContext.current
-        var showWelcomeSheet by remember { mutableStateOf(true) }
+        var showSheet by remember { mutableStateOf(true) }
         val sheetState = rememberModalBottomSheetState()
         val scope = rememberCoroutineScope()
 
-        // 首次进入自动弹出
-        LaunchedEffect(Unit) {
-            sheetState.show()
-        }
+        LaunchedEffect(Unit) { sheetState.show() }
 
-        // 面板完全隐藏后关闭
         LaunchedEffect(sheetState.currentValue) {
-            if (showWelcomeSheet && sheetState.currentValue == SheetValue.Hidden) {
-                showWelcomeSheet = false
+            if (showSheet && sheetState.currentValue == SheetValue.Hidden) {
+                showSheet = false
             }
         }
 
-        // 预测性返回
-        BackHandler(enabled = showWelcomeSheet) {
+        BackHandler(enabled = showSheet) {
             scope.launch { sheetState.hide() }
         }
 
-        // ── 背景层：引导界面（面板展开时模糊）──
         Box(modifier = Modifier.fillMaxSize()) {
+            // 背景：引导界面（面板展开时模糊）
             OnboardingScreen(
                 modifier = Modifier
                     .fillMaxSize()
-                    .blur(if (showWelcomeSheet) 6.dp else 0.dp)
-                    .alpha(if (showWelcomeSheet) 0.55f else 1f),
+                    .blur(if (showSheet) 8.dp else 0.dp)
+                    .alpha(if (showSheet) 0.5f else 1f),
             )
         }
 
-        // ── 顶部应用栏（64dp，surface 背景）──
+        // 顶部应用栏 64dp
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -83,7 +74,7 @@ fun CubeLauncherApp() {
                     modifier = Modifier.size(24.dp),
                 )
             }
-            Spacer(Modifier.width(16.dp))
+            Spacer(Modifier.width(8.dp))
             Text(
                 text = "CubeLauncher",
                 style = MaterialTheme.typography.titleLarge,
@@ -91,8 +82,8 @@ fun CubeLauncherApp() {
             )
         }
 
-        // ── 底部面板 ──
-        if (showWelcomeSheet) {
+        // 底部面板
+        if (showSheet) {
             ModalBottomSheet(
                 onDismissRequest = { scope.launch { sheetState.hide() } },
                 sheetState = sheetState,
@@ -109,7 +100,10 @@ fun CubeLauncherApp() {
                 WelcomeSheetContent(
                     onGithubClick = {
                         context.startActivity(
-                            Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/N-155S/CubeLauncher")),
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("https://github.com/N-155S/CubeLauncher"),
+                            ),
                         )
                     },
                     onDismiss = { scope.launch { sheetState.hide() } },
