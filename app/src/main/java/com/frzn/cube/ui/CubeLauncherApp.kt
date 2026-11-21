@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.frzn.cube.ui.components.PressMorphTonalButton
 import com.frzn.cube.ui.screen.OnboardingScreen
 import com.frzn.cube.ui.screen.WelcomeSheetContent
 import com.frzn.cube.ui.theme.CubeLauncherTheme
@@ -45,7 +46,7 @@ fun CubeLauncherApp() {
         }
 
         Box(modifier = Modifier.fillMaxSize()) {
-            // 背景：引导界面（面板展开时模糊）
+            // 背景：引导界面（用 surface，比应用栏暗）
             OnboardingScreen(
                 modifier = Modifier
                     .fillMaxSize()
@@ -54,27 +55,36 @@ fun CubeLauncherApp() {
             )
         }
 
-        // 顶部应用栏 64dp
+        // 顶部应用栏 64dp（背景 surfaceContainer，与背景 surface 区分 → 修复问题 2）
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(64.dp)
-                .background(MaterialTheme.colorScheme.surface)
+                .background(MaterialTheme.colorScheme.surfaceContainer)
                 .statusBarsPadding()
                 .padding(horizontal = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            IconButton(
-                onClick = { /* 退出登录 */ },
-                modifier = Modifier.size(48.dp),
+            // 退出按钮：PressMorphTonalButton（有背景 + 圆角变换 + 点击退出 → 修复问题 3）
+            PressMorphTonalButton(
+                onClick = {
+                    (context as? android.app.Activity)?.finishAffinity()
+                },
+                modifier = Modifier
+                    .width(56.dp)
+                    .height(40.dp),
+                idleCorner = 20.dp,
+                pressCorner = 8.dp,
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.Logout,
                     contentDescription = "Logout",
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier.size(20.dp),
                 )
             }
-            Spacer(Modifier.width(8.dp))
+
+            Spacer(Modifier.width(12.dp))
+
             Text(
                 text = "CubeLauncher",
                 style = MaterialTheme.typography.titleLarge,
@@ -100,10 +110,7 @@ fun CubeLauncherApp() {
                 WelcomeSheetContent(
                     onGithubClick = {
                         context.startActivity(
-                            Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse("https://github.com/N-155S/CubeLauncher"),
-                            ),
+                            Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/N-155S/CubeLauncher")),
                         )
                     },
                     onDismiss = { scope.launch { sheetState.hide() } },

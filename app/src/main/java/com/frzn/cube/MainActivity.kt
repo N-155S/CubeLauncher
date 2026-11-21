@@ -18,6 +18,13 @@ class MainActivity : ComponentActivity() {
         @Suppress("DEPRECATION")
         window.navigationBarColor = Color.TRANSPARENT
 
+        // 隐藏状态栏（minSdk 31，直接用系统 API）
+        window.insetsController?.apply {
+            hide(android.view.WindowInsets.Type.statusBars())
+            systemBarsBehavior =
+                android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+
         setContent {
             CubeLauncherApp()
         }
